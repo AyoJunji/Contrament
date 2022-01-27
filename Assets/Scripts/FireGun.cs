@@ -12,9 +12,9 @@ public class FireGun : MonoBehaviour
     [SerializeField] private Transform barrel;
 
     [Header("Speed & Multipliers")]
-    [SerializeField] private float bulletSpeed = 2f;
-    [SerializeField] private float shotgunSpeed = 200f;
-    [SerializeField] private float collateralSpeed = 3f;
+    [SerializeField] private float bulletSpeed = 7f;
+    [SerializeField] private float shotgunSpeed = 500f;
+    [SerializeField] private float collateralSpeed = 8f;
 
     [Header("Weapon Checking")]
     private bool usingDefaultGun;
@@ -43,6 +43,13 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 1.5f);
+        }
+
+        if (usingCollateralGun == true)
+        {
+            var spawnedBullet = Instantiate(collateralBullet, barrel.position + new Vector3(.25f, 0f, 0f), barrel.rotation);
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
         }
 
         if (usingShotgun == true)

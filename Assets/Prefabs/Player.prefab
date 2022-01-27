@@ -185,7 +185,7 @@ MonoBehaviour:
   barrel: {fileID: 8698246519930660988}
   bulletSpeed: 7
   shotgunSpeed: 500
-  collateralSpeed: 3
+  collateralSpeed: 8
 --- !u!1 &8698246519930660989
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8698246519930660989}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.671, y: 0.166, z: 0}
+  m_LocalPosition: {x: 1.06, y: 0.166, z: 0}
   m_LocalScale: {x: 0.842335, y: 0.08713125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     Rigidbody2D playerRB;
     Renderer playerRenderer;
+    TextMeshProUGUI scoreTracker;
 
     [Header("Checks")]
     private BoxCollider2D collCheck;
@@ -46,7 +48,6 @@ public class PlayerController : MonoBehaviour
         IsGrounded();
         ReadInputs();
 
-
         if (playerLives <= 0)
         {
             Death();
@@ -69,8 +70,6 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
         }
-
-
     }
 
     void ReadInputs()
@@ -97,6 +96,16 @@ public class PlayerController : MonoBehaviour
             playerLives -= 1;
             StartCoroutine(BecomeTemporarilyInvincible());
         }
+    }
+
+    public void LoseLife(int damage)
+    {
+        playerLives -= damage;
+    }
+
+     public void GetScore(int points)
+    {
+        score += points;
     }
 
     void Death()
