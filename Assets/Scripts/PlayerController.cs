@@ -6,10 +6,10 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     [Header("Score Tracker")]
-    private static int score;
+    public int score;
 
     [Header("Speed & Forces")]
-    private static float moveSpeed = 1.5f;
+    private static float moveSpeed = 1.2f;
     private float maxSpeed = 7f;
     private float jumpForce = 10f;
 
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Bools & Logic")]
     private bool isInvincible = false;
-
+    private bool isFacingRight = true;
 
     [Header("Timers")]
     [SerializeField] private float invincibilityDurationSeconds = 2f;
@@ -70,11 +70,28 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
         }
+        if (xInp > 0 && !isFacingRight)
+        {
+            FlipCharacter();
+        }
+
+        if (xInp < 0 && isFacingRight)
+        {
+            FlipCharacter();
+        }
     }
 
     void ReadInputs()
     {
         xInp = Input.GetAxisRaw("Horizontal");
+    }
+
+    private void FlipCharacter()
+    {
+        Vector3 currentScale = gameObject.transform.localScale;
+        currentScale.x *= -1;
+        gameObject.transform.localScale = currentScale;
+        isFacingRight = !isFacingRight;
     }
 
     private bool IsGrounded()
@@ -106,6 +123,12 @@ public class PlayerController : MonoBehaviour
      public void GetScore(int points)
     {
         score += points;
+    }
+
+    public void SetScoreText()
+    {
+        TextMeshProUGUI scoreText = GameObject.Find("ScoreTracker").GetComponent<TextMeshProUGUI>();
+        scoreText.text = "Fixed Robots: " + score.ToString() + "/5";
     }
 
     void Death()

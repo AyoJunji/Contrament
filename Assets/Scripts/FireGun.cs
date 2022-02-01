@@ -14,7 +14,9 @@ public class FireGun : MonoBehaviour
     [Header("Speed & Multipliers")]
     [SerializeField] private float bulletSpeed = 7f;
     [SerializeField] private float shotgunSpeed = 500f;
-    [SerializeField] private float collateralSpeed = 8f;
+    [SerializeField] private float collateralSpeed = 10f;
+    [SerializeField] private float nextFire = 0f;
+    [SerializeField] private float fireRate = 0.3f;
 
     [Header("Weapon Checking")]
     private bool usingDefaultGun;
@@ -30,7 +32,7 @@ public class FireGun : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1")  && Time.time > nextFire)
         {
             WeaponFire();
         }
@@ -40,6 +42,7 @@ public class FireGun : MonoBehaviour
     {
         if (usingDefaultGun == true)
         {
+            nextFire = Time.time + fireRate;
             var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 1.5f);
@@ -47,13 +50,15 @@ public class FireGun : MonoBehaviour
 
         if (usingCollateralGun == true)
         {
-            var spawnedBullet = Instantiate(collateralBullet, barrel.position + new Vector3(.25f, 0f, 0f), barrel.rotation);
+            nextFire = Time.time + (fireRate + .2f);
+            var spawnedBullet = Instantiate(collateralBullet, barrel.position, barrel.rotation);
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
         }
 
         if (usingShotgun == true)
         {
+            nextFire = Time.time + (fireRate -.1f);
             for (int i = 0; i <= 4; i++)
             {
                 var spawnedBullet = Instantiate(shotgunBullet, barrel.position, barrel.rotation);

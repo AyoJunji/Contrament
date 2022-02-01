@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8698246519446510843}
   - component: {fileID: 8698246519446510838}
   - component: {fileID: 6072559590016356441}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2c1502c048a514180cc05b2e398a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
@@ -185,7 +186,9 @@ MonoBehaviour:
   barrel: {fileID: 8698246519930660988}
   bulletSpeed: 7
   shotgunSpeed: 500
-  collateralSpeed: 8
+  collateralSpeed: 10
+  nextFire: 0
+  fireRate: 0.3
 --- !u!1 &8698246519930660989
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8698246519930660988}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GunHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8698246519930660989}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1.06, y: 0.166, z: 0}
+  m_LocalPosition: {x: 1.338, y: 0.166, z: 0}
   m_LocalScale: {x: 0.842335, y: 0.08713125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

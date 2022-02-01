@@ -10,24 +10,19 @@ public class ChasingEnemy : MonoBehaviour
     Rigidbody2D enemyRB;
     
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        PlayerController getScript = GetComponent<PlayerController>();        
-        if (coll.gameObject.CompareTag("Player"))
-        {
-            getScript.LoseLife(1);
-            getScript.GetScore(1000);
-        }
-
-        if (coll.gameObject.CompareTag("FriendlyProjectiles"))
-        {
-            Death();
-        }
-    }
-
     void Start()
     {
         enemyRB = GetComponent<Rigidbody2D>();
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {        
+
+        if (coll.gameObject.CompareTag("FriendlyProjectiles"))
+        {
+            GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
+            Death();
+        }
     }
 
     void Update()
