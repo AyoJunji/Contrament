@@ -99,7 +99,7 @@ public class FireGun : MonoBehaviour
     }
 
     //Player collision with weapons to pick them up
-    void OnCollisionEnter2D(Collision2D coll)
+    void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.name == "Shotgun")
         {

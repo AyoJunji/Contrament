@@ -7,6 +7,7 @@ public class UI_Buttons_Controller : MonoBehaviour
 {
     [SerializeField] private Animator playButtonAnim;
     [SerializeField] private Animator exitButtonAnim;
+    [SerializeField] private Animator protraitAnim;
 
     public void playMouseOver() {
         playButtonAnim.SetBool("mouseOver", true);
@@ -22,7 +23,9 @@ public class UI_Buttons_Controller : MonoBehaviour
     }
 
     public void StartGame(float s) {
+        protraitAnim.SetTrigger("startGame");
         Invoke("LoadScene", s);
+        //Game Start music
     }
     void LoadScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public int score;
 
     [Header("Speed & Forces")]
-    private static float moveSpeed = 1f;
+    private static float moveSpeed = 5f;
     private float maxSpeed = 4.5f;
     private float jumpForce = 10f;
 
@@ -20,13 +20,14 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D playerRB;
     Renderer playerRenderer;
     TextMeshProUGUI scoreTracker;
+    Animator playerAnim;
 
     [Header("Checks")]
     private BoxCollider2D collCheck;
     [SerializeField] private LayerMask jumpableGround;
 
     [Header("Inputs")]
-    private float xInp;
+    private Vector2 input;
 
     [Header("Bools & Logic")]
     private bool isInvincible = false;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         playerRenderer = gameObject.GetComponent<Renderer>();
         playerRB = gameObject.GetComponent<Rigidbody2D>();
         collCheck = gameObject.GetComponent<BoxCollider2D>();
+        playerAnim = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -52,7 +54,6 @@ public class PlayerController : MonoBehaviour
         {
             Death();
         }
-
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !Input.GetKey(KeyCode.S))
         {
             Jump();
@@ -61,21 +62,38 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        playerRB.AddForce(new Vector2(xInp * moveSpeed, 0), ForceMode2D.Impulse);
-        if (playerRB.velocity.x > maxSpeed)
-        {
-            playerRB.velocity = new Vector2(maxSpeed, playerRB.velocity.y);
+        
+#region GUI MOVEMENT
+        if(input.x != 0 ) {
+            transform.Translate(Vector3.right * input.x * moveSpeed * Time.deltaTime);
+            if(IsGrounded()) {
+                playerAnim.SetBool("isRunning", true);
+            }
+        }else{
+            playerAnim.SetBool("isRunning", false);
         }
-        else if (playerRB.velocity.x < -maxSpeed)
-        {
-            playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
+        if(IsGrounded()) {
+            playerAnim.SetBool("isJumping", false);
         }
-        if (xInp > 0 && !isFacingRight)
+#endregion
+        
+#region JUNJI MOVEMENT
+        // playerRB.AddForce(new Vector2(input.x * moveSpeed, 0), ForceMode2D.Impulse);
+        // if (playerRB.velocity.x > maxSpeed)
+        // {
+        //     playerRB.velocity = new Vector2(maxSpeed, playerRB.velocity.y);
+        // }
+        // else if (playerRB.velocity.x < -maxSpeed)
+        // {
+        //     playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
+        // }
+#endregion
+        if (input.x > 0 && !isFacingRight)
         {
             FlipCharacter();
         }
 
-        if (xInp < 0 && isFacingRight)
+        if (input.x < 0 && isFacingRight)
         {
             FlipCharacter();
         }
@@ -83,7 +101,10 @@ public class PlayerController : MonoBehaviour
 
     void ReadInputs()
     {
-        xInp = Input.GetAxisRaw("Horizontal");
+        input.x = Input.GetAxisRaw("Horizontal");
+        input.y = Input.GetAxisRaw("Vertical");
+        playerAnim.SetFloat("inputX", input.x);
+        playerAnim.SetFloat("inputY", input.y);
     }
 
     private void FlipCharacter()
@@ -104,7 +125,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //Add Jumping noise right here
-
+        playerAnim.SetBool("isJumping", true);
         playerRB.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 
@@ -131,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetScoreText()
     {
+        //Change/update****
         TextMeshProUGUI scoreText = GameObject.Find("ScoreTracker").GetComponent<TextMeshProUGUI>();
         scoreText.text = "Fixed Robots: " + score.ToString() + "/5";
     }
@@ -138,8 +160,8 @@ public class PlayerController : MonoBehaviour
     void Death()
     {
         //Put player's death noise here
-
-        Destroy(gameObject, .2f);
+        gameObject.SetActive(false);
+        //Destroy(gameObject, .2f);
     }
 
     private IEnumerator BecomeTemporarilyInvincible()
