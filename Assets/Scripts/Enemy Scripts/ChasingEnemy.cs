@@ -8,7 +8,7 @@ public class ChasingEnemy : MonoBehaviour
     [SerializeField] BoxCollider2D enemyCollider;
     [SerializeField] private float speed = 3f;
     Rigidbody2D enemyRB;
-    
+
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class ChasingEnemy : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D coll)
-    {        
+    {
 
         if (coll.gameObject.CompareTag("FriendlyProjectiles"))
         {
@@ -34,6 +34,9 @@ public class ChasingEnemy : MonoBehaviour
     {
         enemyCollider.enabled = false;
         enemyRenderer.enabled = false;
+
+        // Add enemy death noise here
+
         Destroy(gameObject, .5f);
     }
 }

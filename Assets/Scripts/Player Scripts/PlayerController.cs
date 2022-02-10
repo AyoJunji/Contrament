@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     public int score;
 
     [Header("Speed & Forces")]
-    private static float moveSpeed = 1.2f;
-    private float maxSpeed = 7f;
+    private static float moveSpeed = 1f;
+    private float maxSpeed = 4.5f;
     private float jumpForce = 10f;
 
     [Header("Lives")]
@@ -103,6 +103,8 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        //Add Jumping noise right here
+
         playerRB.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 
@@ -110,6 +112,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyProjectiles") && !isInvincible)
         {
+            // Put a sound here to signify player being hit
+
             playerLives -= 1;
             StartCoroutine(BecomeTemporarilyInvincible());
         }
@@ -120,7 +124,7 @@ public class PlayerController : MonoBehaviour
         playerLives -= damage;
     }
 
-     public void GetScore(int points)
+    public void GetScore(int points)
     {
         score += points;
     }
@@ -133,6 +137,8 @@ public class PlayerController : MonoBehaviour
 
     void Death()
     {
+        //Put player's death noise here
+
         Destroy(gameObject, .2f);
     }
 
@@ -140,6 +146,8 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player turned invincible!");
         isInvincible = true;
+
+        // IF POSSIBLE SOMEHOW MAKE THE PLAYER SPRITE BLINK SO IT SHOWS HIM BEING INVINCIBLE
 
         yield return new WaitForSeconds(invincibilityDurationSeconds);
 

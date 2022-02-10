@@ -12,7 +12,7 @@ public class FireGun : MonoBehaviour
     [SerializeField] private Transform barrel;
 
     [Header("Speed & Multipliers")]
-    [SerializeField] private float bulletSpeed = 7f;
+    [SerializeField] private float bulletSpeed = 8.5f;
     [SerializeField] private float shotgunSpeed = 500f;
     [SerializeField] private float collateralSpeed = 10f;
     [SerializeField] private float nextFire = 0f;
@@ -32,18 +32,24 @@ public class FireGun : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1")  && Time.time > nextFire)
+
+        //Input for shooting all guns
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             WeaponFire();
         }
     }
 
+    //How the different guns shoot
     private void WeaponFire()
     {
         if (usingDefaultGun == true)
         {
             nextFire = Time.time + fireRate;
             var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
+
+            //Add Gun shot noise here
+
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 1.5f);
         }
@@ -52,16 +58,22 @@ public class FireGun : MonoBehaviour
         {
             nextFire = Time.time + (fireRate + .2f);
             var spawnedBullet = Instantiate(collateralBullet, barrel.position, barrel.rotation);
+
+            //Add Gun shot noise here
+
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
         }
 
         if (usingShotgun == true)
         {
-            nextFire = Time.time + (fireRate -.1f);
+            nextFire = Time.time + (fireRate - .1f);
             for (int i = 0; i <= 4; i++)
             {
                 var spawnedBullet = Instantiate(shotgunBullet, barrel.position, barrel.rotation);
+
+                //Add Gun shot noise here
+
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
                 {
@@ -86,10 +98,12 @@ public class FireGun : MonoBehaviour
 
     }
 
+    //Player collision with weapons to pick them up
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.name == "Shotgun")
         {
+            //If adding pick-up noises, put it here
             usingDefaultGun = false;
             usingShotgun = true;
             usingCollateralGun = false;
@@ -97,6 +111,7 @@ public class FireGun : MonoBehaviour
 
         if (coll.gameObject.name == "DefaultGun")
         {
+            //If adding pick-up noises, put it here
             usingDefaultGun = true;
             usingShotgun = false;
             usingCollateralGun = false;
@@ -104,6 +119,7 @@ public class FireGun : MonoBehaviour
 
         if (coll.gameObject.name == "CollateralGun")
         {
+            //If adding pick-up noises, put it here
             usingDefaultGun = false;
             usingShotgun = false;
             usingCollateralGun = true;
