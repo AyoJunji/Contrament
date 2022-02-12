@@ -20,6 +20,15 @@ public class PeaTurret : MonoBehaviour
     public Transform turretBarrel;
     public GameObject bullet;
 
+    [SerializeField] private Renderer enemyRenderer;
+    [SerializeField] private Collider2D enemyCollider;
+
+    void Start()
+    {
+        enemyRenderer = gameObject.GetComponent<Renderer>();
+        enemyCollider = gameObject.GetComponent<Collider2D>();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("FriendlyProjectiles"))
@@ -28,7 +37,6 @@ public class PeaTurret : MonoBehaviour
 
             if (life <= 0)
             {
-                GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5000);
                 BlowUp();
             }
         }
@@ -75,7 +83,12 @@ public class PeaTurret : MonoBehaviour
         //Add turret death noise here
         //Add turret explosion FX
 
+        enemyRenderer.enabled = false;
+        enemyCollider.enabled = false;
+
         Destroy(gameObject, .2f);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5000);
+
     }
 
     private void OnDrawGizmosSelected()

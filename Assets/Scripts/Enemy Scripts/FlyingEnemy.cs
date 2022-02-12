@@ -6,8 +6,9 @@ public class FlyingEnemy : MonoBehaviour
 {
     public AnimationCurve myCurve;
     Rigidbody2D enemyRB;
-    Renderer enemyRenderer;
-    BoxCollider2D enemyCollider;
+    [SerializeField] private Renderer enemyRenderer;
+    [SerializeField] private BoxCollider2D enemyCollider;
+    private int life = 1;
 
     void Awake()
     {
@@ -27,8 +28,12 @@ public class FlyingEnemy : MonoBehaviour
 
         if (coll.gameObject.CompareTag("FriendlyProjectiles"))
         {
-            GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
-            Death();
+            life -= 1;
+
+            if (life <= 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -40,6 +45,8 @@ public class FlyingEnemy : MonoBehaviour
     void Death()
     {
         enemyRenderer.enabled = false;
-        Destroy(gameObject, .2f);
+        enemyCollider.enabled = false;
+        Destroy(gameObject, .01f);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(3000);
     }
 }

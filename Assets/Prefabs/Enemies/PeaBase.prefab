@@ -225,6 +225,8 @@ MonoBehaviour:
   player: {fileID: 0}
   turretBarrel: {fileID: 511433679255709578}
   bullet: {fileID: 3865184185254447817, guid: 6a1ce3900f618934795987cc634000eb, type: 3}
+  enemyRenderer: {fileID: 511433679679581290}
+  enemyCollider: {fileID: 511433679679581288}
 --- !u!58 &511433679679581288
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -148,4 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRenderer: {fileID: 1766161326652341220}
   enemyCollider: {fileID: 1766161326652341218}
-  speed: 3
+  speed: 2

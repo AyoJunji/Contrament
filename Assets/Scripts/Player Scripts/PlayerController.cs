@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Speed & Forces")]
     private static float moveSpeed = 5f;
-    private float maxSpeed = 4.5f;
-    private float jumpForce = 10f;
+   // private float maxSpeed = 4.5f;
+    private float jumpForce = 15f;
 
     [Header("Lives")]
     private int playerLives = 3;
@@ -19,11 +19,10 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     Rigidbody2D playerRB;
     Renderer playerRenderer;
-    TextMeshProUGUI scoreTracker;
     Animator playerAnim;
 
     [Header("Checks")]
-    private BoxCollider2D collCheck;
+    [SerializeField] private BoxCollider2D collCheck;
     [SerializeField] private LayerMask jumpableGround;
 
     [Header("Inputs")]
@@ -41,14 +40,22 @@ public class PlayerController : MonoBehaviour
         score = 0;
         playerRenderer = gameObject.GetComponent<Renderer>();
         playerRB = gameObject.GetComponent<Rigidbody2D>();
-        collCheck = gameObject.GetComponent<BoxCollider2D>();
+        // collCheck = gameObject.GetComponent<BoxCollider2D>();
         playerAnim = gameObject.GetComponent<Animator>();
+        
     }
 
     void Update()
     {
         IsGrounded();
         ReadInputs();
+        SetUIText();
+
+            if(IsGrounded()){
+                Debug.Log("GROUNDED");
+            }else{
+                Debug.Log("Not Grounded");
+            }
 
         if (playerLives <= 0)
         {
@@ -78,15 +85,16 @@ public class PlayerController : MonoBehaviour
 #endregion
         
 #region JUNJI MOVEMENT
-        // playerRB.AddForce(new Vector2(input.x * moveSpeed, 0), ForceMode2D.Impulse);
-        // if (playerRB.velocity.x > maxSpeed)
-        // {
-        //     playerRB.velocity = new Vector2(maxSpeed, playerRB.velocity.y);
-        // }
-        // else if (playerRB.velocity.x < -maxSpeed)
-        // {
-        //     playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
-        // }
+        /* playerRB.AddForce(new Vector2(input.x * moveSpeed, 0), ForceMode2D.Impulse);
+         if (playerRB.velocity.x > maxSpeed)
+         {
+             playerRB.velocity = new Vector2(maxSpeed, playerRB.velocity.y);
+         }
+         else if (playerRB.velocity.x < -maxSpeed)
+         {
+             playerRB.velocity = new Vector2(-maxSpeed, playerRB.velocity.y);
+         }
+         */
 #endregion
         if (input.x > 0 && !isFacingRight)
         {
@@ -150,18 +158,23 @@ public class PlayerController : MonoBehaviour
         score += points;
     }
 
-    public void SetScoreText()
+    public void SetUIText()
     {
         //Change/update****
         TextMeshProUGUI scoreText = GameObject.Find("ScoreTracker").GetComponent<TextMeshProUGUI>();
-        scoreText.text = "Fixed Robots: " + score.ToString() + "/5";
+        scoreText.text = "Score: " + score.ToString();
+
+        TextMeshProUGUI livesText = GameObject.Find("LivesTracker").GetComponent<TextMeshProUGUI>();
+        livesText.text = "Lives: " + playerLives.ToString();
     }
 
     void Death()
     {
         //Put player's death noise here
-        gameObject.SetActive(false);
-        //Destroy(gameObject, .2f);
+        //gameObject.SetActive(false);
+        collCheck.enabled = false;
+        playerRenderer.enabled = false;
+        Destroy(gameObject, .2f);
     }
 
     private IEnumerator BecomeTemporarilyInvincible()

@@ -97,7 +97,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.045}
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 3269136030050699281}
   gunRenderer: {fileID: 3269136030050699282}
+  gunCollider: {fileID: 3269136030050699283}
 --- !u!95 &3269136031539759827
 Animator:
   serializedVersion: 4

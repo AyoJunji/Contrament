@@ -138,3 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 8641868406199102857}
   bulletRenderer: {fileID: 8641868406199102862}
+  bulletCollider: {fileID: 4863768914947026293}

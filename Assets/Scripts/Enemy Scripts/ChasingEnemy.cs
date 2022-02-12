@@ -8,11 +8,13 @@ public class ChasingEnemy : MonoBehaviour
     [SerializeField] BoxCollider2D enemyCollider;
     [SerializeField] private float speed = 3f;
     Rigidbody2D enemyRB;
+    private int life = 2;
 
 
     void Start()
     {
         enemyRB = GetComponent<Rigidbody2D>();
+        enemyCollider = GetComponent<BoxCollider2D>();
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -20,8 +22,12 @@ public class ChasingEnemy : MonoBehaviour
 
         if (coll.gameObject.CompareTag("FriendlyProjectiles"))
         {
-            GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
-            Death();
+            life -= 1;
+
+            if (life <= 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -37,6 +43,8 @@ public class ChasingEnemy : MonoBehaviour
 
         // Add enemy death noise here
 
-        Destroy(gameObject, .5f);
+        Destroy(gameObject, .2f);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
+
     }
 }

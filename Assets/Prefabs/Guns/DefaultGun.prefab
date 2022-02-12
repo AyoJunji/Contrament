@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 2208015727756826690}
   gunRenderer: {fileID: 3941632682430241110}
+  gunCollider: {fileID: 6664677259686637455}
 --- !u!1 &8037165010622947910
 GameObject:
   m_ObjectHideFlags: 0
