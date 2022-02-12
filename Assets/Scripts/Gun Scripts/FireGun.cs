@@ -10,6 +10,7 @@ public class FireGun : MonoBehaviour
     [SerializeField] private GameObject shotgunBullet;
     [SerializeField] private GameObject collateralBullet;
     [SerializeField] private Transform barrel;
+    [SerializeField] private PlayerController playerController;
 
     [Header("Speed & Multipliers")]
     [SerializeField] private float bulletSpeed = 8.5f;
@@ -34,7 +35,7 @@ public class FireGun : MonoBehaviour
     {
 
         //Input for shooting all guns
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (Input.GetButton("Fire1") && Time.time > nextFire && playerController.ammo > 0)
         {
             WeaponFire();
         }
@@ -43,6 +44,7 @@ public class FireGun : MonoBehaviour
     //How the different guns shoot
     private void WeaponFire()
     {
+        playerController.ammo -= 1;
         if (usingDefaultGun == true)
         {
             nextFire = Time.time + fireRate;

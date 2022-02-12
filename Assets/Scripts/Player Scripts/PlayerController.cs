@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
-    [Header("Score Tracker")]
-    public int score;
+    [Header("Ammo Tracker")]
+    public int ammo;
 
     [Header("Speed & Forces")]
     private static float moveSpeed = 5f;
@@ -37,10 +37,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        score = 0;
+        
         playerRenderer = gameObject.GetComponent<Renderer>();
         playerRB = gameObject.GetComponent<Rigidbody2D>();
-        // collCheck = gameObject.GetComponent<BoxCollider2D>();
+        collCheck = gameObject.GetComponent<BoxCollider2D>();
         playerAnim = gameObject.GetComponent<Animator>();
         
     }
@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !Input.GetKey(KeyCode.S))
         {
             Jump();
+        }
+        if(Input.GetKey(KeyCode.Escape)) {
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -155,17 +158,18 @@ public class PlayerController : MonoBehaviour
 
     public void GetScore(int points)
     {
-        score += points;
+        ammo += points;
     }
 
     public void SetUIText()
     {
         //Change/update****
         TextMeshProUGUI scoreText = GameObject.Find("ScoreTracker").GetComponent<TextMeshProUGUI>();
-        scoreText.text = "Score: " + score.ToString();
+        scoreText.text = "Ammo: <br>" + ammo.ToString();
 
         TextMeshProUGUI livesText = GameObject.Find("LivesTracker").GetComponent<TextMeshProUGUI>();
         livesText.text = "Lives: " + playerLives.ToString();
+        //add ui "hearts"
     }
 
     void Death()

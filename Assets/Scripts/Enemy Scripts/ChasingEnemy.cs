@@ -6,9 +6,11 @@ public class ChasingEnemy : MonoBehaviour
 {
     [SerializeField] Renderer enemyRenderer;
     [SerializeField] BoxCollider2D enemyCollider;
+    [SerializeField] BoxCollider2D attackRange;
     [SerializeField] private float speed = 3f;
     Rigidbody2D enemyRB;
     private int life = 2;
+    private bool playerNearby = false;
 
 
     void Start()
@@ -30,16 +32,29 @@ public class ChasingEnemy : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Player")){
+            playerNearby = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.CompareTag("Player")){
+            playerNearby = false;
+        }
+    }
 
     void Update()
     {
-        enemyRB.velocity = -transform.right * speed;
+        if(playerNearby) {
+            enemyRB.velocity = -transform.right * speed;
+        }
     }
 
     void Death()
     {
-        enemyCollider.enabled = false;
-        enemyRenderer.enabled = false;
+        gameObject.SetActive(false);
+        // enemyCollider.enabled = false;
+        // enemyRenderer.enabled = false;
 
         // Add enemy death noise here
 

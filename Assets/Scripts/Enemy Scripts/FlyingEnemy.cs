@@ -39,7 +39,7 @@ public class FlyingEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        enemyRB.velocity = transform.right * 4;
+        enemyRB.velocity = transform.right * -4;
     }
 
     void Death()
