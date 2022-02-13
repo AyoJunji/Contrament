@@ -50,13 +50,8 @@ public class PlayerController : MonoBehaviour
         IsGrounded();
         ReadInputs();
         SetUIText();
-
-            if(IsGrounded()){
-                Debug.Log("GROUNDED");
-            }else{
-                Debug.Log("Not Grounded");
-            }
-
+        
+        Debug.Log(IsGrounded());
         if (playerLives <= 0)
         {
             Death();
@@ -74,17 +69,30 @@ public class PlayerController : MonoBehaviour
     {
         
 #region GUI MOVEMENT
-        if(input.x != 0 ) {
+        if(input.x != 0 ) 
+        {
             transform.Translate(Vector3.right * input.x * moveSpeed * Time.deltaTime);
-            if(IsGrounded()) {
-                playerAnim.SetBool("isRunning", true);
-            }
-        }else{
+        }
+
+        if(IsGrounded() && input.x != 0) 
+        {
+            playerAnim.SetBool("isRunning", true);
+        }
+        else
+        {
             playerAnim.SetBool("isRunning", false);
         }
-        if(IsGrounded()) {
-            playerAnim.SetBool("isJumping", false);
+
+        if(!IsGrounded())
+        {
+           playerAnim.SetBool("isJumping", true);
         }
+        else
+           {
+            playerAnim.SetBool("isJumping", false);
+
+           }
+
 #endregion
         
 #region JUNJI MOVEMENT
@@ -136,7 +144,6 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //Add Jumping noise right here
-        playerAnim.SetBool("isJumping", true);
         playerRB.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 

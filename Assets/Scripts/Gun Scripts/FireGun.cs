@@ -10,11 +10,15 @@ public class FireGun : MonoBehaviour
     [SerializeField] private GameObject shotgunBullet;
     [SerializeField] private GameObject collateralBullet;
     [SerializeField] private Transform barrel;
+    [SerializeField] private Transform barrelUP;
+    [SerializeField] private Transform barrelDOWN;
     [SerializeField] private PlayerController playerController;
 
+
     [Header("Speed & Multipliers")]
-    [SerializeField] private float bulletSpeed = 8.5f;
-    [SerializeField] private float shotgunSpeed = 500f;
+    [SerializeField] private float bulletSpeed = 9f;
+    [SerializeField] private float shotgunSpeed = 300f;
+
     [SerializeField] private float collateralSpeed = 10f;
     [SerializeField] private float nextFire = 0f;
     [SerializeField] private float fireRate = 0.3f;
@@ -33,7 +37,6 @@ public class FireGun : MonoBehaviour
 
     void Update()
     {
-
         //Input for shooting all guns
         if (Input.GetButton("Fire1") && Time.time > nextFire && playerController.ammo > 0)
         {
@@ -44,30 +47,127 @@ public class FireGun : MonoBehaviour
     //How the different guns shoot
     private void WeaponFire()
     {
-        playerController.ammo -= 1;
-        if (usingDefaultGun == true)
+        if (usingDefaultGun == true && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             nextFire = Time.time + fireRate;
             var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
 
             //Add Gun shot noise here
+            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * bulletSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 1.5f);
+            Destroy(spawnedBullet, 2f);
         }
 
-        if (usingCollateralGun == true)
+        if (usingDefaultGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + fireRate;
+            var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 1;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingDefaultGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + fireRate;
+            var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 1;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingDefaultGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + fireRate;
+            var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 1;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingDefaultGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + fireRate;
+            var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 1;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * bulletSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingCollateralGun == true && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             nextFire = Time.time + (fireRate + .2f);
             var spawnedBullet = Instantiate(collateralBullet, barrel.position, barrel.rotation);
 
             //Add Gun shot noise here
+            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
         }
 
-        if (usingShotgun == true)
+        if (usingCollateralGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate + .2f);
+            var spawnedBullet = Instantiate(collateralBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 5;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingCollateralGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate + .2f);
+            var spawnedBullet = Instantiate(collateralBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 5;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingCollateralGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate + .2f);
+            var spawnedBullet = Instantiate(collateralBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 5;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingCollateralGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate + .2f);
+            var spawnedBullet = Instantiate(collateralBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+            playerController.ammo -= 5;
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingShotgun == true && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             nextFire = Time.time + (fireRate - .1f);
             for (int i = 0; i <= 4; i++)
@@ -75,6 +175,7 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrel.position, barrel.rotation);
 
                 //Add Gun shot noise here
+                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
@@ -93,6 +194,134 @@ public class FireGun : MonoBehaviour
                         break;
                     case 4:
                         spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * shotgunSpeed + new Vector3(0f, 90f, 0f));
+                        break;
+                }
+            }
+        }
+
+        if (usingShotgun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate - .1f);
+            for (int i = 0; i <= 4; i++)
+            {
+                var spawnedBullet = Instantiate(shotgunBullet, barrelUP.position, barrelUP.rotation);
+
+                //Add Gun shot noise here
+                playerController.ammo -= 5;
+
+                Destroy(spawnedBullet, 1.3f);
+                switch (i)
+                {
+                    case 0:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(-22.5f, -90f, 0f));
+                        break;
+                    case 1:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(-22.5f, -45f, 0f));
+                        break;
+                    case 2:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(-22.5f, 0f, 0f));
+                        break;
+                    case 3:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(-22.5f, 45f, 0f));
+                        break;
+                    case 4:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(-22.5f, 90f, 0f));
+                        break;
+                }
+            }
+        }
+
+        if (usingShotgun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate - .1f);
+            for (int i = 0; i <= 4; i++)
+            {
+                var spawnedBullet = Instantiate(shotgunBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+                //Add Gun shot noise here
+                playerController.ammo -= 5;
+
+                Destroy(spawnedBullet, 1.3f);
+                switch (i)
+                {
+                    case 0:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(-45f, -90f, 0f));
+                        break;
+                    case 1:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(-45f, -45f, 0f));
+                        break;
+                    case 2:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(-45f, 0f, 0f));
+                        break;
+                    case 3:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(-45f, 45f, 0f));
+                        break;
+                    case 4:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(-45f, 90f, 0f));
+                        break;
+                }
+            }
+        }
+
+        if (usingShotgun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate - .1f);
+            for (int i = 0; i <= 4; i++)
+            {
+                var spawnedBullet = Instantiate(shotgunBullet, barrelUP.position, barrelUP.rotation);
+
+                //Add Gun shot noise here
+                playerController.ammo -= 5;
+
+                Destroy(spawnedBullet, 1.3f);
+                switch (i)
+                {
+                    case 0:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(22.5f, -90f, 0f));
+                        break;
+                    case 1:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(22.5f, -45f, 0f));
+                        break;
+                    case 2:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(22.5f, 0f, 0f));
+                        break;
+                    case 3:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(22.5f, 45f, 0f));
+                        break;
+                    case 4:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * shotgunSpeed + new Vector3(22.5f, 90f, 0f));
+                        break;
+                }
+            }
+        }
+
+        if (usingShotgun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate - .1f);
+            for (int i = 0; i <= 4; i++)
+            {
+                var spawnedBullet = Instantiate(shotgunBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+                //Add Gun shot noise here
+                playerController.ammo -= 5;
+
+                Destroy(spawnedBullet, 1.3f);
+                switch (i)
+                {
+                    case 0:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(45f, -90f, 0f));
+                        break;
+                    case 1:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(45f, -45f, 0f));
+                        break;
+                    case 2:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(45f, 0f, 0f));
+                        break;
+                    case 3:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(45f, 45f, 0f));
+                        break;
+                    case 4:
+                        spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * shotgunSpeed + new Vector3(45f, 90f, 0f));
                         break;
                 }
             }
@@ -128,4 +357,5 @@ public class FireGun : MonoBehaviour
         }
 
     }
+
 }

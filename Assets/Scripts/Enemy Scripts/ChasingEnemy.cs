@@ -32,6 +32,7 @@ public class ChasingEnemy : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")){
             playerNearby = true;
@@ -59,7 +60,7 @@ public class ChasingEnemy : MonoBehaviour
         // Add enemy death noise here
 
         Destroy(gameObject, .2f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(50);
 
     }
 }

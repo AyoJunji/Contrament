@@ -87,7 +87,7 @@ public class PeaTurret : MonoBehaviour
         enemyCollider.enabled = false;
 
         Destroy(gameObject, .2f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5000);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(50);
 
     }
 
