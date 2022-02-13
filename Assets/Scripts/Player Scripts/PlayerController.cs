@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
         IsGrounded();
         ReadInputs();
         SetUIText();
-        
         Debug.Log(IsGrounded());
         if (playerLives <= 0)
         {

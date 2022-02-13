@@ -53,7 +53,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -65,7 +64,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -77,7 +75,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -89,7 +86,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -101,7 +97,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 1;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * bulletSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -113,7 +108,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(collateralBullet, barrel.position, barrel.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -125,7 +119,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(collateralBullet, barrelUP.position, barrelUP.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -137,7 +130,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(collateralBullet, barrelDOWN.position, barrelDOWN.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -149,7 +141,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(collateralBullet, barrelUP.position, barrelUP.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -161,7 +152,6 @@ public class FireGun : MonoBehaviour
             var spawnedBullet = Instantiate(collateralBullet, barrelDOWN.position, barrelDOWN.rotation);
 
             //Add Gun shot noise here
-            playerController.ammo -= 5;
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
             Destroy(spawnedBullet, 2f);
@@ -175,7 +165,6 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrel.position, barrel.rotation);
 
                 //Add Gun shot noise here
-                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
@@ -207,7 +196,6 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrelUP.position, barrelUP.rotation);
 
                 //Add Gun shot noise here
-                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
@@ -239,7 +227,6 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrelDOWN.position, barrelDOWN.rotation);
 
                 //Add Gun shot noise here
-                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
@@ -271,7 +258,6 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrelUP.position, barrelUP.rotation);
 
                 //Add Gun shot noise here
-                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)
@@ -303,7 +289,6 @@ public class FireGun : MonoBehaviour
                 var spawnedBullet = Instantiate(shotgunBullet, barrelDOWN.position, barrelDOWN.rotation);
 
                 //Add Gun shot noise here
-                playerController.ammo -= 5;
 
                 Destroy(spawnedBullet, 1.3f);
                 switch (i)

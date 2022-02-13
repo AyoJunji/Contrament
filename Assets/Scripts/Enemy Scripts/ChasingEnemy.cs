@@ -60,7 +60,7 @@ public class ChasingEnemy : MonoBehaviour
         // Add enemy death noise here
 
         Destroy(gameObject, .2f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(50);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
 
     }
 }

@@ -9,7 +9,6 @@ public class FlyingEnemy : MonoBehaviour
     [SerializeField] private Renderer enemyRenderer;
     [SerializeField] private BoxCollider2D enemyCollider;
     private int life = 1;
-    private bool playerNearby;
 
     void Awake()
     {
@@ -20,20 +19,8 @@ public class FlyingEnemy : MonoBehaviour
 
     void Update()
     {
-        if(playerNearby) {
-            transform.position = new Vector3(transform.position.x,
-            myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")){
-            playerNearby = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.CompareTag("Player")){
-            playerNearby = false;
-        }
+        transform.position = new Vector3(transform.position.x,
+        myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -60,6 +47,6 @@ public class FlyingEnemy : MonoBehaviour
         enemyRenderer.enabled = false;
         enemyCollider.enabled = false;
         Destroy(gameObject, .01f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(50);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(3000);
     }
 }
