@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7119468074355525034}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -30.25, y: 2.08, z: 0.049889557}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -146,6 +146,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   enemyRenderer: {fileID: 0}
   enemyCollider: {fileID: 0}
+  attackRange: 10
+  playerInAttackRange: 0
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!50 &7119468074355525036
 Rigidbody2D:
   serializedVersion: 4

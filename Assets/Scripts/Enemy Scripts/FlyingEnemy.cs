@@ -6,9 +6,12 @@ public class FlyingEnemy : MonoBehaviour
 {
     public AnimationCurve myCurve;
     Rigidbody2D enemyRB;
-    [SerializeField] private Renderer enemyRenderer;
-    [SerializeField] private BoxCollider2D enemyCollider;
+    private Renderer enemyRenderer;
+    private BoxCollider2D enemyCollider;
     private int life = 1;
+    public float attackRange = 10f;
+    public bool playerInAttackRange;
+    public LayerMask whatIsPlayer;
 
     void Awake()
     {
@@ -19,8 +22,23 @@ public class FlyingEnemy : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(transform.position.x,
-        myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
+        playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
+
+        Vector3 targ = PlayerController.playerPOS.transform.position;
+        targ.z = 0f;
+
+        Vector3 objectPos = transform.position;
+        targ.x = targ.x - objectPos.x;
+        targ.y = targ.y - objectPos.y;
+
+        float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        if (playerInAttackRange && LevelManager.gamestate == GameState.Game)
+        {
+            transform.position = new Vector3(transform.position.x,
+            myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -48,5 +66,10 @@ public class FlyingEnemy : MonoBehaviour
         enemyCollider.enabled = false;
         Destroy(gameObject, .01f);
         GameObject.Find("Player").GetComponent<PlayerController>().GetScore(3000);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

@@ -7,6 +7,7 @@ public class UI_Buttons_Controller : MonoBehaviour
 {
     [SerializeField] private Animator playButtonAnim;
     [SerializeField] private Animator exitButtonAnim;
+    
     [SerializeField] private Animator protraitAnim;
 
     public void playMouseOver() {
@@ -21,6 +22,7 @@ public class UI_Buttons_Controller : MonoBehaviour
     public void exitMouseGone() {
         exitButtonAnim.SetBool("mouseOver", false);
     }
+    
 
     public void StartGame(float s) {
         protraitAnim.SetTrigger("startGame");

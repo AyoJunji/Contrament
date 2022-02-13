@@ -6,11 +6,13 @@ public class ChasingEnemy : MonoBehaviour
 {
     [SerializeField] Renderer enemyRenderer;
     [SerializeField] BoxCollider2D enemyCollider;
-    [SerializeField] BoxCollider2D attackRange;
     [SerializeField] private float speed = 3f;
     Rigidbody2D enemyRB;
     private int life = 2;
     private bool playerNearby = false;
+    public float attackRange = 10f;
+    public bool playerInAttackRange;
+    public LayerMask whatIsPlayer;
 
 
     void Start()
@@ -33,34 +35,44 @@ public class ChasingEnemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Player")){
-            playerNearby = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.CompareTag("Player")){
-            playerNearby = false;
-        }
-    }
 
     void Update()
     {
-        if(playerNearby) {
+        playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
+
+        Vector3 targ = PlayerController.playerPOS.transform.position;
+        targ.z = 0f;
+
+        Vector3 objectPos = transform.position;
+        targ.x = targ.x - objectPos.x;
+        targ.y = targ.y - objectPos.y;
+
+        float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        if (playerInAttackRange && LevelManager.gamestate == GameState.Game)
+        {
             enemyRB.velocity = -transform.right * speed;
+        }
+
+        if(playerNearby && LevelManager.gamestate == GameState.Game) {
+            
         }
     }
 
     void Death()
     {
         gameObject.SetActive(false);
-        // enemyCollider.enabled = false;
-        // enemyRenderer.enabled = false;
 
         // Add enemy death noise here
 
         Destroy(gameObject, .2f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(1000);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5);
 
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

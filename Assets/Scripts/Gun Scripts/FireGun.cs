@@ -38,7 +38,7 @@ public class FireGun : MonoBehaviour
     void Update()
     {
         //Input for shooting all guns
-        if (Input.GetButton("Fire1") && Time.time > nextFire && playerController.ammo > 0)
+        if (Input.GetButton("Fire1") && Time.time > nextFire && playerController.ammo > 0 && LevelManager.gamestate == GameState.Game)
         {
             WeaponFire();
         }

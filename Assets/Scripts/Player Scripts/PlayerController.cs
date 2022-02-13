@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+
 public class PlayerController : MonoBehaviour
 {
+    [Header ("Location")]
+    public static Transform playerPOS;
+    public static PlayerController playerControllerCS;
+
     [Header("Ammo Tracker")]
     public int ammo;
 
@@ -20,13 +24,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D playerRB;
     Renderer playerRenderer;
     Animator playerAnim;
+    [SerializeField] TextMeshProUGUI ammoText;
+    [SerializeField] TextMeshProUGUI livesText;
 
     [Header("Checks")]
     [SerializeField] private BoxCollider2D collCheck;
     [SerializeField] private LayerMask jumpableGround;
 
     [Header("Inputs")]
-    private Vector2 input;
+    [HideInInspector]public Vector2 input;
 
     [Header("Bools & Logic")]
     private bool isInvincible = false;
@@ -37,7 +43,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
+        playerControllerCS = this;
+        playerPOS = gameObject.transform;   
         playerRenderer = gameObject.GetComponent<Renderer>();
         playerRB = gameObject.GetComponent<Rigidbody2D>();
         collCheck = gameObject.GetComponent<BoxCollider2D>();
@@ -48,22 +55,28 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         IsGrounded();
-        ReadInputs();
+        if(LevelManager.gamestate == GameState.Game) {
+            ReadInputs();
+        }        
         SetUIText();
-        Debug.Log(IsGrounded());
+        
         if (playerLives <= 0)
         {
             Death();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !Input.GetKey(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() && !Input.GetKeyDown(KeyCode.S))
         {
             Jump();
         }
-        if(Input.GetKey(KeyCode.Escape)) {
-            SceneManager.LoadScene(0);
+
+        if(Input.GetKey(KeyCode.Escape) && LevelManager.gamestate == GameState.Game) {
+            LevelManager.gamestate = GameState.Pause;
+            LevelManager.tutorialAnim.SetTrigger("fadeIn");
+        }
+        if(Input.GetKeyDown(KeyCode.G)) {
+            Debug.Log(LevelManager.gamestate);
         }
     }
-
     void FixedUpdate()
     {
         
@@ -170,10 +183,9 @@ public class PlayerController : MonoBehaviour
     public void SetUIText()
     {
         //Change/update****
-        TextMeshProUGUI scoreText = GameObject.Find("ScoreTracker").GetComponent<TextMeshProUGUI>();
-        scoreText.text = "Ammo: <br>" + ammo.ToString();
+        ammoText.text = "Ammo: <br>" + ammo.ToString();
 
-        TextMeshProUGUI livesText = GameObject.Find("LivesTracker").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI livesText = GameObject.Find("Lives").GetComponent<TextMeshProUGUI>();
         livesText.text = "Lives: " + playerLives.ToString();
         //add ui "hearts"
     }
