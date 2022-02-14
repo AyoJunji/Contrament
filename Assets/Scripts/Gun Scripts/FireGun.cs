@@ -17,8 +17,8 @@ public class FireGun : MonoBehaviour
 
     [Header("Speed & Multipliers")]
     [SerializeField] private float bulletSpeed = 9f;
+    [SerializeField] private float rapidSpeed = 9f;
     [SerializeField] private float shotgunSpeed = 300f;
-
     [SerializeField] private float collateralSpeed = 10f;
     [SerializeField] private float nextFire = 0f;
     [SerializeField] private float fireRate = 0.3f;
@@ -27,12 +27,14 @@ public class FireGun : MonoBehaviour
     private bool usingDefaultGun;
     private bool usingShotgun;
     private bool usingCollateralGun;
+    private bool usingRapidGun;
 
     void Start()
     {
         usingDefaultGun = true;
         usingShotgun = false;
         usingCollateralGun = false;
+        usingRapidGun = false;
     }
 
     void Update()
@@ -110,7 +112,7 @@ public class FireGun : MonoBehaviour
             //Add Gun shot noise here
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * collateralSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 2f);
+            Destroy(spawnedBullet, 1.2f);
         }
 
         if (usingCollateralGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
@@ -121,7 +123,7 @@ public class FireGun : MonoBehaviour
             //Add Gun shot noise here
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 2f);
+            Destroy(spawnedBullet, 1.2f);
         }
 
         if (usingCollateralGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
@@ -132,7 +134,7 @@ public class FireGun : MonoBehaviour
             //Add Gun shot noise here
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 2f);
+            Destroy(spawnedBullet, 1.2f);
         }
 
         if (usingCollateralGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
@@ -143,7 +145,7 @@ public class FireGun : MonoBehaviour
             //Add Gun shot noise here
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * collateralSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 2f);
+            Destroy(spawnedBullet, 1.2f);
         }
 
         if (usingCollateralGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
@@ -154,7 +156,7 @@ public class FireGun : MonoBehaviour
             //Add Gun shot noise here
 
             spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * collateralSpeed, ForceMode2D.Impulse);
-            Destroy(spawnedBullet, 2f);
+            Destroy(spawnedBullet, 1.2f);
         }
 
         if (usingShotgun == true && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
@@ -312,35 +314,100 @@ public class FireGun : MonoBehaviour
             }
         }
 
+        if (usingRapidGun == true && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        {
+            nextFire = Time.time + (fireRate - 0.2f);
+            var spawnedBullet = Instantiate(defaultBullet, barrel.position, barrel.rotation);
+
+            //Add Gun shot noise here
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrel.up * rapidSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingRapidGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate - 0.2f);
+            var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * rapidSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingRapidGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            nextFire = Time.time + (fireRate - 0.2f);
+            var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * rapidSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingRapidGun == true && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate - 0.2f);
+            var spawnedBullet = Instantiate(defaultBullet, barrelUP.position, barrelUP.rotation);
+
+            //Add Gun shot noise here
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelUP.up * rapidSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
+
+        if (usingRapidGun == true && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            nextFire = Time.time + (fireRate - 0.2f);
+            var spawnedBullet = Instantiate(defaultBullet, barrelDOWN.position, barrelDOWN.rotation);
+
+            //Add Gun shot noise here
+
+            spawnedBullet.GetComponent<Rigidbody2D>().AddForce(barrelDOWN.up * rapidSpeed, ForceMode2D.Impulse);
+            Destroy(spawnedBullet, 2f);
+        }
     }
 
     //Player collision with weapons to pick them up
-    void OnTriggerEnter2D(Collider2D coll)
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.name == "Shotgun")
+        if (coll.gameObject.name == "Shotgun" || coll.gameObject.name == "Shotgun(Clone)")
         {
             //If adding pick-up noises, put it here
             usingDefaultGun = false;
             usingShotgun = true;
             usingCollateralGun = false;
+            usingRapidGun = false;
         }
 
-        if (coll.gameObject.name == "DefaultGun")
+        if (coll.gameObject.name == "DefaultGun" || coll.gameObject.name == "DefaultGun(Clone)")
         {
             //If adding pick-up noises, put it here
             usingDefaultGun = true;
             usingShotgun = false;
             usingCollateralGun = false;
+            usingRapidGun = false;
         }
 
-        if (coll.gameObject.name == "CollateralGun")
+        if (coll.gameObject.name == "CollateralGun" || coll.gameObject.name == "CollateralGun(Clone)")
         {
             //If adding pick-up noises, put it here
             usingDefaultGun = false;
             usingShotgun = false;
             usingCollateralGun = true;
+            usingRapidGun = false;
         }
 
+        if (coll.gameObject.name == "RapidGun" || coll.gameObject.name == "RapidGun(Clone)")
+        {
+            //If adding pick-up noises, put it here
+            usingDefaultGun = false;
+            usingShotgun = false;
+            usingCollateralGun = false;
+            usingRapidGun = true;
+        }
     }
 
 }

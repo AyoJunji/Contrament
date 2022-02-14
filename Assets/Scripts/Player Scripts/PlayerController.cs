@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Speed & Forces")]
     private static float moveSpeed = 5f;
    // private float maxSpeed = 4.5f;
-    private float jumpForce = 15f;
+    private float jumpForce = 25f;
 
     [Header("Lives")]
     private int playerLives = 3;
@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
     Animator playerAnim;
     [SerializeField] TextMeshProUGUI ammoText;
     [SerializeField] TextMeshProUGUI livesText;
+    [Header ("Audio")]
+
+    public AudioClip[] clips = new AudioClip[1];
+    public static AudioSource playerAudio;
+    
 
     [Header("Checks")]
     [SerializeField] private BoxCollider2D collCheck;
@@ -49,6 +54,7 @@ public class PlayerController : MonoBehaviour
         playerRB = gameObject.GetComponent<Rigidbody2D>();
         collCheck = gameObject.GetComponent<BoxCollider2D>();
         playerAnim = gameObject.GetComponent<Animator>();
+        playerAudio =GetComponent<AudioSource>();
         
     }
 
@@ -156,6 +162,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //Add Jumping noise right here
+        playerAudio.PlayOneShot(clips[0]);
         playerRB.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 
@@ -164,7 +171,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyProjectiles") && !isInvincible)
         {
             // Put a sound here to signify player being hit
-
+            playerAudio.PlayOneShot(clips[1]);
             playerLives -= 1;
             StartCoroutine(BecomeTemporarilyInvincible());
         }
@@ -193,10 +200,19 @@ public class PlayerController : MonoBehaviour
     void Death()
     {
         //Put player's death noise here
-        //gameObject.SetActive(false);
-        collCheck.enabled = false;
-        playerRenderer.enabled = false;
-        Destroy(gameObject, .2f);
+        playerAudio.PlayOneShot(clips[1]);
+        LevelManager.instance.messageAnim.SetTrigger("showLose");
+        LevelManager.gamestate = GameState.Lose;
+        gameObject.SetActive(false);
+    }
+    public void WinLevel() {
+        LevelManager.instance.messageAnim.SetTrigger("showLevel");
+        LevelManager.gamestate = GameState.Pause;
+        LevelManager.instance.InvokeNextLevel(2);
+    }
+    public void WinGame() {
+        LevelManager.instance.messageAnim.SetTrigger("showWin");
+        LevelManager.gamestate = GameState.Win;
     }
 
     private IEnumerator BecomeTemporarilyInvincible()

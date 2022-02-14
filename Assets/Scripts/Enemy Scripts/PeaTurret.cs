@@ -42,6 +42,19 @@ public class PeaTurret : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.CompareTag("FriendlyProjectiles"))
+        {
+            life -= 3;
+
+            if (life <= 0)
+            {
+                BlowUp();
+            }
+        }
+    }
+
     void Update()
     {
         playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
@@ -82,12 +95,13 @@ public class PeaTurret : MonoBehaviour
     {
         //Add turret death noise here
         //Add turret explosion FX
-
+        AudioSource audio = gameObject.GetComponent<AudioSource>();
+        audio.PlayOneShot(PlayerController.playerControllerCS.clips[1]);
         enemyRenderer.enabled = false;
         enemyCollider.enabled = false;
 
         Destroy(gameObject, .2f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5000);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5);
 
     }
 

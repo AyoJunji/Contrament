@@ -6,7 +6,7 @@ public class DestroyGun : MonoBehaviour
 {
     [SerializeField] private GameObject currentGun;
     [SerializeField] private Renderer gunRenderer;
-    [SerializeField] private BoxCollider2D gunCollider;
+    [SerializeField] private Collider2D gunCollider;
 
     void OnTriggerEnter2D(Collider2D coll)
     {

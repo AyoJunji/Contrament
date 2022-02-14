@@ -4,41 +4,61 @@ using UnityEngine;
 
 public class FlyingEnemy : MonoBehaviour
 {
-    public AnimationCurve myCurve;
+    public GameObject bullet;
+    public Transform flyingBUTT;
     Rigidbody2D enemyRB;
     private Renderer enemyRenderer;
     private BoxCollider2D enemyCollider;
+
     private int life = 1;
-    public float attackRange = 10f;
+
+    public float attackRange = 15f;
+    public float timeBetweenAttacks;
     public bool playerInAttackRange;
     public LayerMask whatIsPlayer;
+
+    public float bulletSpeed = 2f;
+    bool alreadyAttacked;
+
+    [Header("Bouncing Settings")]
+    Vector3 startPos;
+    public float travelDistance;
+    public float speed = 3f;
 
     void Awake()
     {
         enemyRB = gameObject.GetComponent<Rigidbody2D>();
         enemyRenderer = gameObject.GetComponent<Renderer>();
         enemyCollider = gameObject.GetComponent<BoxCollider2D>();
+        startPos = transform.position;
     }
 
     void Update()
     {
         playerInAttackRange = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
 
-        Vector3 targ = PlayerController.playerPOS.transform.position;
-        targ.z = 0f;
-
-        Vector3 objectPos = transform.position;
-        targ.x = targ.x - objectPos.x;
-        targ.y = targ.y - objectPos.y;
-
-        float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
         if (playerInAttackRange && LevelManager.gamestate == GameState.Game)
         {
-            transform.position = new Vector3(transform.position.x,
-            myCurve.Evaluate((Time.time % myCurve.length)), transform.position.z);
+            transform.position = new Vector3(transform.position.x, startPos.y + Mathf.PingPong(Time.time * speed, travelDistance), transform.position.z);
+            enemyRB.velocity = -transform.right * speed;
+            AttackPlayer();
         }
+    }
+
+    void AttackPlayer()
+    {
+        if (!alreadyAttacked)
+        {
+            GameObject bulletInstance = Instantiate(bullet, flyingBUTT.position, Quaternion.identity);
+            bulletInstance.GetComponent<Rigidbody2D>().AddForce(-flyingBUTT.up * bulletSpeed, ForceMode2D.Impulse);
+            alreadyAttacked = true;
+            Invoke(nameof(Reset), timeBetweenAttacks + 2f);
+        }
+    }
+
+    private void Reset()
+    {
+        alreadyAttacked = false;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -55,18 +75,29 @@ public class FlyingEnemy : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void OnTriggerEnter2D(Collider2D coll)
     {
-        enemyRB.velocity = transform.right * -4;
+        if (coll.CompareTag("FriendlyProjectiles"))
+        {
+            life -= 3;
+
+            if (life <= 0)
+            {
+                Death();
+            }
+        }
     }
 
     void Death()
     {
+        AudioSource audio = gameObject.GetComponent<AudioSource>();
+        audio.PlayOneShot(PlayerController.playerControllerCS.clips[1]);
         enemyRenderer.enabled = false;
         enemyCollider.enabled = false;
         Destroy(gameObject, .01f);
-        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(3000);
+        GameObject.Find("Player").GetComponent<PlayerController>().GetScore(5);
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
